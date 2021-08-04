@@ -1,7 +1,45 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState} from "react";
 
 function App() {
+
+    const [value, setValue] = useState({
+        sum: 0,
+        numberOfPeople: 0,
+        percent: 0,
+        delivery: 0,
+    });
+
+    const [radioBtn, setRadioBtn] = useState(true);
+
+    const humans = ["petr", "sodas", "anton",]
+
+    const radioBoolean = function () {
+        setRadioBtn(!radioBtn)
+    };
+
+    const result = function () {
+        if (radioBtn) {
+            return (
+                <div className="result">
+                    <p>Общая сумма: 1150 сом</p>
+                    <p>Количество человек: 3</p>
+                    <p>Каждый платит по: 384 сом</p>
+                </div>
+            )
+        } else {
+            return (
+                <div className="result">
+                    <p>Общая сумма: 1150 сом</p>
+                    <p>Количество человек: 3</p>
+                    {humans.map((humans, index) => {
+                        return <p>{humans}</p>
+                    })}
+                </div>
+            )
+        }
+    }
 
     return (
         <div className="container">
@@ -44,11 +82,7 @@ function App() {
                 </div>
             </form>
 
-            <div className="result">
-                <p>Общая сумма: 1150 сом</p>
-                <p>Количество человек: 3</p>
-                <p>Каждый платит по: 384 сом</p>
-            </div>
+            {result()}
 
         </div>
     );
