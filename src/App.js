@@ -1,6 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
 import {useState} from "react";
+import ResultCommon from "./components/resultCommon";
+import ResultSeparated from "./components/resultSeparated";
+import Options from "./components/options";
+import {nanoid} from "nanoid";
+import './App.css';
 
 function App() {
 
@@ -13,30 +16,48 @@ function App() {
 
     const [radioBtn, setRadioBtn] = useState(true);
 
-    const humans = ["petr", "sodas", "anton",]
+    const [people, setPeople] = useState([]);
 
     const radioBoolean = function () {
         setRadioBtn(!radioBtn)
+        console.log(radioBtn)
     };
 
-    const result = function () {
+    const addPerson = () => {
+        setPeople(...people, {name: '', price: '', id: nanoid()})
+    }
+
+    const changePersonField = (id, name, value) => {
+        setPeople(people => {
+            return people.map(person => {
+                if (person.id === id) {
+                    return {...person, [name]: value}
+                }
+                return person
+            });
+        });
+    };
+
+    const inputField = () => {
         if (radioBtn) {
             return (
-                <div className="result">
-                    <p>Общая сумма: 1150 сом</p>
-                    <p>Количество человек: 3</p>
-                    <p>Каждый платит по: 384 сом</p>
-                </div>
+                <ResultCommon/>
             )
         } else {
             return (
-                <div className="result">
-                    <p>Общая сумма: 1150 сом</p>
-                    <p>Количество человек: 3</p>
-                    {humans.map((humans, index) => {
-                        return <p>{humans}</p>
-                    })}
-                </div>
+                <ResultSeparated/>
+            )
+        }
+    }
+
+    const result = () => {
+        if (radioBtn) {
+            return (
+                <ResultCommon/>
+            )
+        } else {
+            return (
+                <ResultSeparated/>
             )
         }
     }
@@ -44,19 +65,9 @@ function App() {
     return (
         <div className="container">
 
-            <form className="options">
-                <p>Сумма заказа считается:</p>
-                <div className="buttons">
-                    <div>
-                        <input type="radio" id="radio-1" name="option" checked/>
-                        <label htmlFor="radio-1">Поровну между всеми участниками</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="radio-2" name="option"/>
-                        <label htmlFor="radio-2">Каждому индивидуально</label>
-                    </div>
-                </div>
-            </form>
+            <Options radioBtn={radioBtn} setBoolean={() => {
+                radioBoolean()
+            }}/>
 
             <form className="calc">
                 <div className="inputs">
