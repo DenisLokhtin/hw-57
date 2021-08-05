@@ -4,13 +4,15 @@ const InputSeparated = (props) => (
     <form className="calc">
         <div className="inputs">
             <div className="newPerson">
-                {props.people.map(person => (
-                    <div key={person.id}>
-                        <input className="nameInput" value={person.name} type="text" placeholder="Имя"/>
-                        <input className="SumInput" value={person.name} type="number" min="0" placeholder="Сумма"/>
-                        <button type="button" className="remove">&#10006;</button>
-                    </div>
-                ))}
+                {props.people.map(person => {
+                    return (
+                        <div key={person.id}>
+                            <input onChange={e => props.change(person.id, 'name', e.target.value)} className="nameInput" value={person.name} type="text" placeholder="Имя"/>
+                            <input className="SumInput" value={person.price} type="number" min="0" placeholder="Сумма"/>
+                            <button type="button" className="remove">&#10006;</button>
+                        </div>
+                    )
+                })}
             </div>
             <div className="btnCont">
                 <button onClick={props.add} type="button" className="addBtn">+</button>

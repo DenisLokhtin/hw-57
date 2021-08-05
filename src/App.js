@@ -19,7 +19,7 @@ function App() {
     const [radioBtn, setRadioBtn] = useState(true);
 
     const [people, setPeople] = useState([
-        {name: "dikaprio", price: "222", id: nanoid()}
+        {name: "dikaprio", price: "222", id: nanoid()},
     ]);
 
     const radioBoolean = function () {
@@ -28,7 +28,7 @@ function App() {
     };
 
     const addPerson = () => {
-        setPeople(...people, {name: '', price: '', id: nanoid()})
+        setPeople([...people, {name: "", price: "", id: nanoid()}]);
     }
 
     const changePersonField = (id, name, value) => {
@@ -37,10 +37,14 @@ function App() {
                 if (person.id === id) {
                     return {...person, [name]: value}
                 }
-                return person
+                return person;
             });
         });
     };
+
+    const changeValues = () => {
+        setValue()
+    }
 
     const inputField = () => {
         if (radioBtn) {
@@ -49,7 +53,7 @@ function App() {
             )
         } else {
             return (
-                <ResultSeparated/>
+                <ResultSeparated people={people}/>
             )
         }
     }
@@ -61,7 +65,7 @@ function App() {
             )
         } else {
             return (
-                <InputSeparated add={() => addPerson()} people={people}/>
+                <InputSeparated change={() => changePersonField()} add={() => addPerson()} people={people}/>
             )
         }
     }
