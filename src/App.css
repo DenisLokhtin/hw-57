@@ -30,6 +30,26 @@
   text-align: right;
 }
 
+form div .btnCont {
+  text-align: left;
+}
+
+.newPerson {
+  float: left;
+}
+
+form div div .nameInput {
+  margin-left: 1px;
+}
+
+.btnCont {
+  margin-bottom: 20px;
+}
+
+.addBtn {
+
+}
+
 .calc div label {
   float: left;
 }
@@ -40,6 +60,11 @@
 
 .btn {
   margin-top: 20px;
+  float: left;
+}
+
+div form div .res {
+  margin-left: 0px;
 }
 
 .calc div input {
