@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import ResultCommon from "./components/resultCommon";
 import ResultSeparated from "./components/resultSeparated";
 import InputCommon from "./components/inputCommon";
@@ -16,59 +16,93 @@ function App() {
         delivery: 0,
     });
 
+    const [valueResult, setResult] = useState(0);
+
     const [radioBtn, setRadioBtn] = useState(true);
 
     const [people, setPeople] = useState([
-        {name: "dikaprio", price: "222", id: nanoid()},
+        {name: "name", price: 0, id: nanoid()},
+        {name: "name", price: 0, id: nanoid()},
     ]);
 
     const radioBoolean = function () {
-        setRadioBtn(!radioBtn)
-        console.log(radioBtn)
+        setRadioBtn(!radioBtn);
+        setValue({
+            sum: 0,
+            numberOfPeople: 0,
+            percent: 0,
+            delivery: 0,
+        });
+        setResult(0);
     };
 
     const addPerson = () => {
-        setPeople([...people, {name: "", price: "", id: nanoid()}]);
-    }
+        setPeople([...people, {name: "name", price: 0, id: nanoid()}]);
+    };
 
-    const changePersonField = (id, name, value) => {
-        setPeople(people => {
-            return people.map(person => {
-                if (person.id === id) {
-                    return {...person, [name]: value}
-                }
-                return person;
-            });
+    const commonPayment = () => {
+        const result = Math.round((value.sum + (value.sum / 100 * value.percent) + value.delivery) / value.numberOfPeople);
+        setResult(result);
+    };
+
+    // const separatedPayment = () => {
+    //     people.map((person, index) => {
+    //         return
+    //     })
+    // };
+
+    const inputChangeHandler = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        const id = e.target.id;
+        setPeople(prevState => {
+            const elem = prevState[id];
+            elem[name] = value;
+            prevState[id] = elem;
+            return [...prevState]
         });
     };
 
-    const changeValues = () => {
-        setValue()
-    }
+    const deleteInput = (e) => {
+        const id = e.target.id;
+        setPeople(prevState => {
+            prevState.splice(id, 1);
+            return [...prevState]
+        });
+    };
+
+    const changeValues = (e) => {
+        const name = e.target.name;
+        const value = Number(e.target.value);
+        setValue(prevState => {
+            return {...prevState, [name]: value}
+        });
+    };
 
     const inputField = () => {
         if (radioBtn) {
             return (
-                <ResultCommon/>
+                <ResultCommon result={valueResult} people={value.numberOfPeople}/>
             )
         } else {
             return (
-                <ResultSeparated people={people}/>
+                <ResultSeparated value={value} people={people}/>
             )
         }
-    }
+    };
 
     const result = () => {
         if (radioBtn) {
             return (
-                <InputCommon/>
+                <InputCommon result={() => commonPayment()} value={value} change={(e) => changeValues(e)}/>
             )
         } else {
             return (
-                <InputSeparated change={() => changePersonField()} add={() => addPerson()} people={people}/>
+                <InputSeparated delete={(e) => deleteInput(e)} changeVal={(e) => changeValues(e)} value={value}
+                                change={(e) => inputChangeHandler(e)} add={() => addPerson()} people={people}/>
             )
         }
-    }
+    };
 
     return (
         <div className="container">

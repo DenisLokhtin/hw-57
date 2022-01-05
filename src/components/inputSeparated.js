@@ -4,12 +4,12 @@ const InputSeparated = (props) => (
     <form className="calc">
         <div className="inputs">
             <div className="newPerson">
-                {props.people.map(person => {
+                {props.people.map((person, index)=> {
                     return (
                         <div key={person.id}>
-                            <input onChange={e => props.change(person.id, 'name', e.target.value)} className="nameInput" value={person.name} type="text" placeholder="Имя"/>
-                            <input className="SumInput" value={person.price} type="number" min="0" placeholder="Сумма"/>
-                            <button type="button" className="remove">&#10006;</button>
+                            <input id={index} onChange={e => props.change(e)} name="name" className="nameInput" value={person.name} type="text" placeholder="Имя"/>
+                            <input id={index} onChange={e => props.change(e)} name="price" className="SumInput" value={person.price} type="number" min="1" placeholder="Сумма"/>
+                            <button onClick={e => props.delete(e)} id={index} type="button" className="remove">&#10006;</button>
                         </div>
                     )
                 })}
@@ -19,15 +19,12 @@ const InputSeparated = (props) => (
             </div>
             <div>
                 <label htmlFor="percent">Процент чаевых:</label>
-                <input id="percent" type="number" min="0" placeholder="%"/>
+                <input id="percent" name="percent" onChange={e => props.changeVal(e)} defaultValue={props.value.percent} type="number" min="0" placeholder="%"/>
             </div>
             <div>
                 <label htmlFor="delivery">Доставка:</label>
-                <input id="delivery" type="number" min="0" placeholder="Сом"/>
+                <input id="delivery" name="delivery" onChange={e => props.changeVal(e)} defaultValue={props.value.delivery} type="number" min="0" placeholder="Сом"/>
             </div>
-
-            <input className="btn res" type="button" value="Расчитать"/>
-            <input className="reset btn" type="reset"/>
         </div>
     </form>
 );
